@@ -1,0 +1,5 @@
+DATA_PATH = "data/btc.jsonl"
+
+DEFAULT_LEVELS = 20
+
+DEFAULT_HORIZON = 10
