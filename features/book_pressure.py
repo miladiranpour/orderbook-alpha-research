@@ -1,6 +1,9 @@
 import numpy as np
 
-def calculate(records, levels=10):
+from utils import snapshot
+
+
+def calculate(records, levels=20):
 
     values = []
 
@@ -8,13 +11,13 @@ def calculate(records, levels=10):
 
         bid = np.sum(
 
-            row["bid_volumes"][:levels]
+            snapshot.bid_volumes(row)[:levels]
 
         )
 
         ask = np.sum(
 
-            row["ask_volumes"][:levels]
+            snapshot.ask_volumes(row)[:levels]
 
         )
 

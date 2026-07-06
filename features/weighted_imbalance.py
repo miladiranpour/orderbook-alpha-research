@@ -1,8 +1,15 @@
+from utils import snapshot
+
+
 def calculate(records, levels=20):
 
     values = []
 
     for row in records:
+
+        bids = snapshot.bid_volumes(row)
+
+        asks = snapshot.ask_volumes(row)
 
         bid = 0
         ask = 0
@@ -11,12 +18,16 @@ def calculate(records, levels=20):
 
             weight = 1 / (i + 1)
 
-            bid += row["bid_volumes"][i] * weight
-            ask += row["ask_volumes"][i] * weight
+            bid += bids[i] * weight
+
+            ask += asks[i] * weight
 
         values.append(
 
-            (bid - ask) /
+            (bid - ask)
+
+            /
+
             (bid + ask)
 
         )

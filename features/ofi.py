@@ -1,3 +1,6 @@
+from utils import snapshot
+
+
 def calculate(records):
 
     values = [0]
@@ -10,21 +13,21 @@ def calculate(records):
 
         bid_change = (
 
-            cur["bid_volumes"][0]
+            snapshot.best_bid_volume(cur)
 
             -
 
-            prev["bid_volumes"][0]
+            snapshot.best_bid_volume(prev)
 
         )
 
         ask_change = (
 
-            cur["ask_volumes"][0]
+            snapshot.best_ask_volume(cur)
 
             -
 
-            prev["ask_volumes"][0]
+            snapshot.best_ask_volume(prev)
 
         )
 

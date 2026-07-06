@@ -1,16 +1,17 @@
+from utils import snapshot
+
+
 def calculate(records):
 
     values = []
 
     for row in records:
 
-        bid_price = row["bid_prices"][0]
+        bid_price = snapshot.best_bid_price(row)
+        ask_price = snapshot.best_ask_price(row)
 
-        ask_price = row["ask_prices"][0]
-
-        bid_volume = row["bid_volumes"][0]
-
-        ask_volume = row["ask_volumes"][0]
+        bid_volume = snapshot.best_bid_volume(row)
+        ask_volume = snapshot.best_ask_volume(row)
 
         micro = (
 
@@ -24,15 +25,13 @@ def calculate(records):
 
         )
 
-        mid = (
-
-            bid_price + ask_price
-
-        ) / 2
+        mid = snapshot.mid_price(row)
 
         values.append(
 
-            (micro - mid) / mid
+            (micro - mid)
+
+            / mid
 
         )
 
