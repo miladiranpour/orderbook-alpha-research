@@ -1,14 +1,9 @@
-from research.metrics import (
-    correlation,
-    sharpe,
-    win_rate,
-    average_return
-)
+from research.metrics import METRICS
 
 
 def evaluate(
 
-    name,
+    feature_name,
 
     feature,
 
@@ -16,32 +11,22 @@ def evaluate(
 
 ):
 
-    return {
+    result = {
 
-        "Feature": name,
-
-        "Correlation":
-            correlation(
-                feature,
-                future
-            ),
-
-        "WinRate":
-            win_rate(
-                feature,
-                future
-            ),
-
-        "AverageReturn":
-            average_return(
-                feature,
-                future
-            ),
-
-        "Sharpe":
-            sharpe(
-                feature,
-                future
-            )
+        "Feature": feature_name
 
     }
+
+    for metric_name, metric_function in METRICS.items():
+
+        value = metric_function(
+
+            feature,
+
+            future
+
+        )
+
+        result[metric_name] = value
+
+    return result
