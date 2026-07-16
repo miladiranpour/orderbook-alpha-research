@@ -1,8 +1,7 @@
 from utils.loader import load_json
-from utils.config import DATA_PATH
-
 from utils.future_return import build_future_return
 from utils.labels import build_labels
+from utils.config import DATA_PATH
 
 from research.engine import ResearchEngine
 
@@ -18,7 +17,6 @@ future = build_future_return(
 )
 
 labels = build_labels(future)
-
 
 engine = ResearchEngine(
 
@@ -37,15 +35,14 @@ engine = ResearchEngine(
 )
 
 results = engine.run()
-
-results.summary()
-
-print(results.metrics)
+results.save("results/latest.pkl")
 
 print()
 
+print("===== Metrics =====")
+print(results.metrics)
+
 print(
-
-    results.analysis["Imbalance"]["Threshold"]
-
+    "\n===== Ranking ====="
 )
+print(results.ranking)

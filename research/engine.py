@@ -3,9 +3,9 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from features.registry import FEATURES
-from research.analysis.registry import PLOT_ANALYSIS, TABLE_ANALYSIS
+from research.analysis.registry import TABLE_ANALYSIS
 from research.evaluator import evaluate
-from research.ranking import build as build_ranking
+from research.ranking.engine import build_ranking
 from research.result import ResearchResult
 from utils.alignment import align
 
@@ -24,7 +24,8 @@ class ResearchEngine:
         analysis_results = {}
         plot_results = {}
 
-        for feature_name, feature_function in FEATURES.items():
+        for feature_name, feature_config in FEATURES.items():
+            feature_function = feature_config["function"]
             feature_values = feature_function(self.records)
             feature_values, future_returns = align(
                 feature_values, self.future_returns
@@ -36,8 +37,9 @@ class ResearchEngine:
             )
 
             feature_analysis = {}
-            for analysis_name, analysis_function in TABLE_ANALYSIS.items():
-                if analysis_name in {"Probability", "Decile"}:
+            for analysis_name, analysis_config in TABLE_ANALYSIS.items():
+                analysis_function = analysis_config["function"]
+                if analysis_config["input"] == "labels":
                     feature_analysis[analysis_name] = analysis_function(
                         feature_values, labels
                     )
@@ -47,20 +49,10 @@ class ResearchEngine:
                     )
             analysis_results[feature_name] = feature_analysis
 
-            feature_plots = {}
-            for plot_name, plot_function in PLOT_ANALYSIS.items():
-                if plot_name == "Histogram":
-                    feature_plots[plot_name] = plot_function(
-                        feature_values, feature_name
-                    )
-                else:
-                    feature_plots[plot_name] = plot_function(
-                        feature_values, future_returns, feature_name
-                    )
-            plot_results[feature_name] = feature_plots
+            plot_results[feature_name] = {}
 
         metrics = pd.DataFrame(metric_rows)
-        ranking = build_ranking(metrics.copy()) if not metrics.empty else metrics
+        ranking = self.run_ranking(metrics)
 
         return ResearchResult(
             metrics=metrics,
@@ -73,3 +65,6 @@ class ResearchEngine:
                 "records": len(self.records),
             },
         )
+
+    def run_ranking(self, metrics):
+        return build_ranking(metrics)

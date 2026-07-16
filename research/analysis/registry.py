@@ -3,27 +3,55 @@ from .decile import calculate as decile
 from .threshold import calculate as threshold
 from .stability import calculate as stability
 
-from .histogram import plot as histogram
-from .scatter import plot as scatter
-
 
 TABLE_ANALYSIS = {
 
-    "Probability": probability,
+    "Probability": {
 
-    "Decile": decile,
+        "function": probability,
 
-    "Threshold": threshold,
+        "input": "labels",
 
-    "Stability": stability
+        "output": "table",
 
-}
+        "description": "Probability Table"
 
+    },
 
-PLOT_ANALYSIS = {
+    "Decile": {
 
-    "Histogram": histogram,
+        "function": decile,
 
-    "Scatter": scatter
+        "input": "labels",
+
+        "output": "table",
+
+        "description": "Decile Analysis"
+
+    },
+
+    "Threshold": {
+
+        "function": threshold,
+
+        "input": "future",
+
+        "output": "table",
+
+        "description": "Threshold Analysis"
+
+    },
+
+    "Stability": {
+
+        "function": stability,
+
+        "input": "future",
+
+        "output": "table",
+
+        "description": "Stability Analysis"
+
+    }
 
 }

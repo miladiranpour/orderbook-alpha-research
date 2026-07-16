@@ -1,23 +1,83 @@
-import features.imbalance as imbalance
-import features.weighted_imbalance as weighted_imbalance
-import features.queue_imbalance as queue_imbalance
-import features.microprice as microprice
-import features.book_pressure as book_pressure
-import features.ofi as ofi
+from .imbalance import calculate as imbalance
+from .weighted_imbalance import calculate as weighted_imbalance
+from .queue_imbalance import calculate as queue_imbalance
+from .microprice import calculate as microprice
+from .book_pressure import calculate as book_pressure
+from .ofi import calculate as ofi
 
 
 FEATURES = {
 
-    "Imbalance": imbalance.calculate,
+    "Imbalance": {
 
-    "Weighted Imbalance": weighted_imbalance.calculate,
+        "function": imbalance,
 
-    "Queue Imbalance": queue_imbalance.calculate,
+        "group": "Volume",
 
-    "Microprice": microprice.calculate,
+        "description": "Order Book Imbalance",
 
-    "Book Pressure": book_pressure.calculate,
+        "version": "1.0"
 
-    "OFI": ofi.calculate
+    },
+
+    "Weighted Imbalance": {
+
+        "function": weighted_imbalance,
+
+        "group": "Volume",
+
+        "description": "Distance Weighted Imbalance",
+
+        "version": "1.0"
+
+    },
+
+    "Queue Imbalance": {
+
+        "function": queue_imbalance,
+
+        "group": "Queue",
+
+        "description": "Best Queue Imbalance",
+
+        "version": "1.0"
+
+    },
+
+    "Microprice": {
+
+        "function": microprice,
+
+        "group": "Price",
+
+        "description": "Microprice",
+
+        "version": "1.0"
+
+    },
+
+    "Book Pressure": {
+
+        "function": book_pressure,
+
+        "group": "Pressure",
+
+        "description": "Book Pressure",
+
+        "version": "1.0"
+
+    },
+
+    "OFI": {
+
+        "function": ofi,
+
+        "group": "Flow",
+
+        "description": "Order Flow Imbalance",
+
+        "version": "1.0"
+
+    }
 
 }

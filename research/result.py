@@ -1,3 +1,7 @@
+import pickle
+from pathlib import Path
+
+
 class ResearchResult:
 
 
@@ -50,3 +54,10 @@ class ResearchResult:
         print(
             f"Created: {self.metadata.get('created_at')}"
         )
+
+    def save(self, path):
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+
+        with destination.open("wb") as file:
+            pickle.dump(self, file)
