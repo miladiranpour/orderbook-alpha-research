@@ -35,7 +35,6 @@ engine = ResearchEngine(
 )
 
 results = engine.run()
-results.save("results/latest.pkl")
 
 print()
 
@@ -46,3 +45,6 @@ print(
     "\n===== Ranking ====="
 )
 print(results.ranking)
+
+
+results.summary()

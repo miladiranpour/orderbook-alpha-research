@@ -5,10 +5,11 @@ import pandas as pd
 from features.registry import FEATURES
 from research.analysis.registry import TABLE_ANALYSIS
 from research.evaluator import evaluate
-from research.ranking.engine import build_ranking
+from research.ranking import build as build_ranking
 from research.result import ResearchResult
 from utils.alignment import align
 
+from research.ranking.engine import build_ranking
 
 class ResearchEngine:
     """Run the registered order-book features through the research pipeline."""
@@ -52,7 +53,7 @@ class ResearchEngine:
             plot_results[feature_name] = {}
 
         metrics = pd.DataFrame(metric_rows)
-        ranking = self.run_ranking(metrics)
+        ranking = build_ranking(metrics.copy()) if not metrics.empty else metrics
 
         return ResearchResult(
             metrics=metrics,
@@ -65,6 +66,3 @@ class ResearchEngine:
                 "records": len(self.records),
             },
         )
-
-    def run_ranking(self, metrics):
-        return build_ranking(metrics)
