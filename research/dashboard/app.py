@@ -9,6 +9,8 @@ if str(PROJECT_ROOT) not in sys.path:
 import streamlit as st
 
 from research.dashboard.components.overview import show_overview
+from research.dashboard.components.metrics import show_metrics
+from research.dashboard.components.probability import show_probability
 from research.dashboard.components.ranking import show_ranking
 from research.dashboard.loader import load_result
 from research.dashboard.presenter import ResearchPresenter
@@ -28,3 +30,5 @@ presenter = ResearchPresenter(load_result(RESULT_PATH))
 
 show_overview(presenter.overview())
 show_ranking(presenter.ranking())
+show_metrics(presenter.metrics())
+show_probability(presenter.analyses())

@@ -19,5 +19,8 @@ class ResearchPresenter:
     def metrics(self):
         return self.result.metrics
 
+    def analyses(self):
+        return self.result.analysis or {}
+
     def analysis(self, feature_name):
         return (self.result.analysis or {}).get(feature_name, {})
