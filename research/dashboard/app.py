@@ -1,7 +1,15 @@
 from pathlib import Path
+import sys
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 import streamlit as st
 
+from research.dashboard.components.overview import show_overview
+from research.dashboard.components.ranking import show_ranking
 from research.dashboard.loader import load_result
 from research.dashboard.presenter import ResearchPresenter
 
@@ -18,14 +26,5 @@ if not RESULT_PATH.exists():
 
 presenter = ResearchPresenter(load_result(RESULT_PATH))
 
-overview = presenter.overview()
-overview_columns = st.columns(3)
-overview_columns[0].metric("Market", overview["market"])
-overview_columns[1].metric("Horizon", f"{overview['horizon'] or 'N/A'} sec")
-overview_columns[2].metric("Rows", overview["records"] or "N/A")
-
-st.header("Feature Ranking")
-st.dataframe(presenter.ranking(), use_container_width=True, hide_index=True)
-
-st.header("Metrics")
-st.dataframe(presenter.metrics(), use_container_width=True, hide_index=True)
+show_overview(presenter.overview())
+show_ranking(presenter.ranking())
